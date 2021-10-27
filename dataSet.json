@@ -1,0 +1,52 @@
+{
+  "rebar":{
+    "name": "螺纹钢",
+    "price":"3400",
+    "com_week":"+85",
+    "com_year":"+1090"
+  },
+  "eleCopper":{
+    "name": "电解铜",
+    "price":"123123",
+    "com_week":"+85",
+    "com_year":"+1090"
+  },
+  "alumina":{
+    "name": "氧化铝",
+    "price":"34634",
+    "com_week":"+85",
+    "com_year":"+1090"
+  },
+  "silicomanganese":{
+    "name": "硅锰",
+    "price":"6789",
+    "com_week":"+85",
+    "com_year":"+1090"
+  },
+  "thermalCoal":{
+    "name": "动力煤",
+    "price":"5467856",
+    "com_week":"+85",
+    "com_year":"+1090"
+  },
+  "SMMA00":{
+    "name": "SMM A00铝",
+    "price":"2334",
+    "com_week":"+85",
+    "com_year":"+1090"
+  }
+  ,
+  "SMMalumina":{
+    "name": "SMM氧化铝",
+    "price":"6223",
+    "com_week":"+85",
+    "com_year":"+1090"
+  }
+  ,
+  "eleManganese":{
+    "name": "电解锰",
+    "price":"235",
+    "com_week":"+85",
+    "com_year":"+1090"
+  }
+}
