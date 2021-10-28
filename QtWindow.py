@@ -54,37 +54,38 @@ class Ui_MainWindow(object):
         self.mainPageButton.setStyleSheet("background-color: rgb(164, 93, 93);")
         self.mainPageButton.setObjectName("mainPageButton")
 
-        self.rebarButton = QtWidgets.QPushButton(self.change_category)
-        self.rebarButton.setStyleSheet("background-color: rgb(204, 155, 110);")
-        self.rebarButton.setObjectName("rebarButton")
-
-        self.eleCopperButton = QtWidgets.QPushButton(self.change_category)
-        self.eleCopperButton.setStyleSheet("background-color: rgb(204, 155, 110);")
-        self.eleCopperButton.setObjectName("eleCopperButton")
-
         self.aluminaButton = QtWidgets.QPushButton(self.change_category)
         self.aluminaButton.setStyleSheet("background-color: rgb(204, 155, 110);")
         self.aluminaButton.setObjectName("aluminaButton")
-
-        self.silicomanganeseButton = QtWidgets.QPushButton(self.change_category)
-        self.silicomanganeseButton.setStyleSheet("background-color: rgb(204, 155, 110);")
-        self.silicomanganeseButton.setObjectName("silicomanganeseButton")
-
-        self.thermalCoalButton = QtWidgets.QPushButton(self.change_category)
-        self.thermalCoalButton.setStyleSheet("background-color: rgb(204, 155, 110);")
-        self.thermalCoalButton.setObjectName("thermalCoalButton")
 
         self.SMMA00Button = QtWidgets.QPushButton(self.change_category)
         self.SMMA00Button.setStyleSheet("background-color: rgb(204, 155, 110);")
         self.SMMA00Button.setObjectName("SMMA00Button")
 
-        self.SMMaluminaButton = QtWidgets.QPushButton(self.change_category)
-        self.SMMaluminaButton.setStyleSheet("background-color: rgb(204, 155, 110);")
-        self.SMMaluminaButton.setObjectName("SMMaluminaButton")
+        self.rebarButton = QtWidgets.QPushButton(self.change_category)
+        self.rebarButton.setStyleSheet("background-color: rgb(204, 155, 110);")
+        self.rebarButton.setObjectName("rebarButton")
+
+        self.silicomanganeseButton = QtWidgets.QPushButton(self.change_category)
+        self.silicomanganeseButton.setStyleSheet("background-color: rgb(204, 155, 110);")
+        self.silicomanganeseButton.setObjectName("silicomanganeseButton")
 
         self.eleManganeseButton = QtWidgets.QPushButton(self.change_category)
         self.eleManganeseButton.setStyleSheet("background-color: rgb(204, 155, 110);")
         self.eleManganeseButton.setObjectName("eleManganeseButton")
+
+        self.thermalCoalButton = QtWidgets.QPushButton(self.change_category)
+        self.thermalCoalButton.setStyleSheet("background-color: rgb(204, 155, 110);")
+        self.thermalCoalButton.setObjectName("thermalCoalButton")
+
+
+        self.eleCopperButton = QtWidgets.QPushButton(self.change_category)
+        self.eleCopperButton.setStyleSheet("background-color: rgb(204, 155, 110);")
+        self.eleCopperButton.setObjectName("eleCopperButton")
+
+        self.SMMaluminaButton = QtWidgets.QPushButton(self.change_category)
+        self.SMMaluminaButton.setStyleSheet("background-color: rgb(204, 155, 110);")
+        self.SMMaluminaButton.setObjectName("SMMaluminaButton")
 
         ###################################################################
         self.toolBoxs = QtWidgets.QSplitter(self.centralwidget)
@@ -139,7 +140,7 @@ class Ui_MainWindow(object):
         self.aluminaButton.setText(_translate("MainWindow", "氧化铝"))
         self.silicomanganeseButton.setText(_translate("MainWindow", "硅锰"))
         self.thermalCoalButton.setText(_translate("MainWindow", "动力煤"))
-        self.SMMA00Button.setText(_translate("MainWindow", "SMM A00铝"))
+        self.SMMA00Button.setText(_translate("MainWindow", "电解铝"))
         self.SMMaluminaButton.setText(_translate("MainWindow", "SMM氧化铝"))
         self.eleManganeseButton.setText(_translate("MainWindow", "电解锰"))
         self.regular_update.setText(_translate("MainWindow", "定时更新"))

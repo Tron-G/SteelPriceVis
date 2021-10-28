@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 import numpy
-
+import os
 from keras.layers import Dense
 from keras.layers import LSTM
 from keras.models import Sequential, load_model
@@ -19,10 +19,12 @@ class PricePredict:
             dataY.append(dataset[i + look_back])
         return numpy.array(dataX), numpy.array(dataY)
 
-    def predictPrice(self, data):
+    def predictPrice(self, data, model_name, need_train=True):
         """
         输入时序数据进行训练和预测
         :param data: 一维时序数据
+        :param model_name: 加载的模型文件名
+        :param need_train: 是否需要重新训练
         :return:
         """
         # dataframe = pd.read_csv('files/'+steel_type+'.csv', usecols=[1], engine='python')
@@ -36,26 +38,31 @@ class PricePredict:
         # 归一化
         scaler = MinMaxScaler(feature_range=(0, 1))
         dataset = scaler.fit_transform(dataset)
-        # 划分训练数据与测试数据
-        train_size = int(len(dataset) * 0.65)
-        trainlist = dataset[:train_size]
-        # testlist = dataset[train_size:]
 
-        # 构造数据
-        look_back = 5
-        trainX, trainY = self.create_dataset(trainlist, look_back)
-        # testX, testY = create_dataset(testlist, look_back)
-        trainX = numpy.reshape(trainX, (trainX.shape[0], trainX.shape[1], 1))
-        # testX = numpy.reshape(testX, (testX.shape[0], testX.shape[1], 1))
-        # 模型训练
-        model = Sequential()
-        model.add(LSTM(4, input_shape=(None, 1)))
-        model.add(Dense(1))
-        model.compile(loss='mean_squared_error', optimizer='adam')
-        # verbose 0:为不在标准输出流输出日志信息 1:显示进度条 2:每个epoch输出一行记录
-        model.fit(trainX, trainY, epochs=40, batch_size=1, verbose=1)
-        # model.save(os.path.join("DATA", "Test" + ".h5"))
-        # model = load_model(os.path.join("DATA","Test" + ".h5"))
+        if need_train:
+            # 划分训练数据与测试数据
+            train_size = int(len(dataset) * 0.65)
+            trainlist = dataset[:train_size]
+            # testlist = dataset[train_size:]
+            # 构造数据
+            look_back = 5
+            trainX, trainY = self.create_dataset(trainlist, look_back)
+            # testX, testY = create_dataset(testlist, look_back)
+            trainX = numpy.reshape(trainX, (trainX.shape[0], trainX.shape[1], 1))
+            # testX = numpy.reshape(testX, (testX.shape[0], testX.shape[1], 1))
+            # 模型训练
+            model = Sequential()
+            model.add(LSTM(4, input_shape=(None, 1)))
+            model.add(Dense(1))
+            model.compile(loss='mean_squared_error', optimizer='adam')
+            # verbose 0:为不在标准输出流输出日志信息 1:显示进度条 2:每个epoch输出一行记录
+            model.fit(trainX, trainY, epochs=40, batch_size=1, verbose=1)
+            # print(os.path.join("DATA", "Test" + ".h5"))
+            # model.save(os.path.join("DATA", "Test" + ".h5"))
+            if not os.path.exists("files/models"):
+                os.makedirs(os.getcwd() + "\\files\\models")
+            model.save("./files/models/" + model_name + ".h5")
+        model = load_model("./files/models/" + model_name + ".h5")
         # 使用最后5个值预测下一天的
         input_data = dataset[-5:]
         input_data = numpy.reshape(input_data, (1, 5, 1))

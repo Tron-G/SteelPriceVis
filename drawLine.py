@@ -10,7 +10,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 from pricePredict import PricePredict
 import os
-
+from matplotlib.font_manager import FontProperties
 
 # 创建一个matplotlib图形绘制类
 class MyFigure(FigureCanvas):
@@ -36,9 +36,8 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.gridlayout = QGridLayout(self.groupBox)  # 继承容器groupBox
 
         # 读取缓存数据
-        self.file_name = ["rebar", "eleCopper", "alumina", "silicomanganese", "thermalCoal", "SMMA00", "SMMalumina",
-                          "eleManganese"]
-        self.Chinese_name = ["螺纹钢", "电解铜", "氧化铝", "硅锰", "动力煤", "SMM A00铝", "SMM氧化铝", "电解锰"]
+        self.file_name = ["alumina", "SMMA00", "rebar", "silicomanganese", "eleManganese",  "thermalCoal", "eleCopper",
+                          "SMMalumina"]
         self.fp = FileProcessing()
         self.data_set = []
         for each in self.file_name:
@@ -52,7 +51,7 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         # 坐标轴稀疏尺度，根据日期尺度变化
         self.tick_spacing = 20
         self.price_predictor = PricePredict()
-
+        # 换乘系统设置
         self.setting = self.fp.load_data("setting")
         # 开启定时更新后屏蔽按钮
         if self.setting["open_regular_update"] == "true":
@@ -112,9 +111,10 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
             index += 1
             # x轴稀疏处理
             self.F.axes.plot(data[i]["date"], data[i]["value"], "r", linewidth=0.5)
-            self.F.axes.set_title(self.file_name[i], fontsize=9, fontweight='bold')
+            self.F.axes.set_title(self.table_data[self.file_name[i]]["name"]+" 走势图", fontsize=10, fontweight='bold', fontproperties="SimHei")
             if self.tick_spacing != -1:
                 self.F.axes.xaxis.set_major_locator(ticker.MultipleLocator(self.tick_spacing))
+
             # 旋转x标签
             for tick in self.F.axes.get_xticklabels():
                 tick.set_rotation(90)
@@ -126,15 +126,16 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
                 size.set_fontsize('8')
 
         self.F.fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.3,
-                                   hspace=0.7)  # wspace 子图横向间距， hspace 代表子图间的纵向距离，left 代表位于图像不同位置
+                                   hspace=0.8)  # wspace 子图横向间距， hspace 代表子图间的纵向距离，left 代表位于图像不同位置
 
         self.gridlayout.addWidget(self.F, 0, 0)  # row, column
         # self.update()
 
-    def drawSingleChart(self, chart_type):
+    def drawSingleChart(self, chart_type, is_export=False):
         """
         绘制单个折线图
         :param chart_type: 绘图的金属种类
+        :param is_export:
         :return:
         """
 
@@ -144,9 +145,10 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.F.axes = self.F.fig.add_subplot(111)
         # x轴稀疏处理
         index = self.file_name.index(chart_type)
-
-        self.F.axes.plot(data["date"], data["value"], "r", linewidth=0.5)
-        self.F.axes.set_title(self.file_name[index], fontsize=9, fontweight='bold')
+        myfont = FontProperties(fname='C:/Windows/Fonts/msyh.ttc')
+        self.F.axes.plot(data["date"], data["value"], "r", linewidth=0.5, label=self.table_data[chart_type]["label"])
+        self.F.axes.set_title(self.table_data[chart_type]["name"]+" 走势图", fontsize=15, fontweight='bold', fontproperties="SimHei")
+        self.F.axes.legend(loc='upper right', prop=myfont, framealpha=0.4)
         if self.tick_spacing != -1:
             self.F.axes.xaxis.set_major_locator(ticker.MultipleLocator(self.tick_spacing))
         # 旋转x标签
@@ -159,7 +161,11 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
             # size.set_fontname(' Microsoft YaHei')  # 雅黑
             size.set_fontsize('8')
         self.F.axes.grid()
-        self.gridlayout.addWidget(self.F, 0, 0)
+        if not is_export:
+            self.gridlayout.addWidget(self.F, 0, 0)
+        else:
+            self.F.fig.set_size_inches(10, 7)
+            self.F.fig.savefig("./files/imgs/"+chart_type, dpi=800)
         pass
 
     def drawAllTable(self):
@@ -388,7 +394,8 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def clickUpdate(self):
         """点击更新功能"""
-        print("done", datetime.now())
+
+
         pass
 
     def windowMessage(self, title, message):
@@ -400,21 +407,29 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         """预测功能"""
         # self.file_name = ["rebar", "eleCopper", "alumina", "silicomanganese", "thermalCoal", "SMMA00", "SMMalumina",
         #                   "eleManganese"]
-        print("ok")
-        self.windowMessage("提示", "预测计算耗时较长，请耐心等待，点击确认开始计算")
-
+        need_train = False
+        now_time = datetime.now()
+        last_time = datetime.strptime(self.setting["last_training"], "%Y-%m-%d")
+        # 每七天需要重新训练一次
+        if (now_time - last_time).days > 7:
+            self.windowMessage("提示", "预测模型需要重新训练，耗时较长，请耐心等待，点击确认开始")
+            need_train = True
+            self.setting["last_training"] = datetime.now().strftime('%Y-%m-%d')
+            self.fp.save_file(self.setting, "setting")
+        else:
+            self.windowMessage("提示", "点击确认开始预测计算，请耐心等待")
         if self.now_page == "main":
             res = []
             for i in range(len(self.file_name)):
-                res.append(self.price_predictor.predictPrice(self.data_set[i]["value"]))
+                res.append(self.price_predictor.predictPrice(self.data_set[i]["value"], self.file_name[i], need_train))
             messages = ""
             for i in range(len(self.file_name)):
-                messages += self.Chinese_name[i] + " : " + str(res[i])
+                messages += self.table_data[self.file_name[i]]["name"] + " : " + str(res[i])
                 if i != (len(self.file_name) - 1):
                     messages += " , "
         else:
-            res = self.price_predictor.predictPrice(self.data_set[self.file_name.index(self.now_page)]["value"])
-            messages = self.Chinese_name[self.file_name.index(self.now_page)] + " : " + str(res)
+            res = self.price_predictor.predictPrice(self.data_set[self.file_name.index(self.now_page)]["value"], self.now_page, need_train)
+            messages = self.table_data[self.now_page]["name"] + " : " + str(res)
 
         self.windowMessage("下一天预测结果", messages)
         pass
@@ -423,8 +438,11 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         """插入报告功能"""
         if not os.path.exists("files/imgs"):
             os.makedirs(os.getcwd()+"\\files\\imgs")
-        self.F.fig.savefig("./files/imgs/test", dpi=600)
 
+        # self.F.fig.savefig("./files/imgs/test", dpi=600)
+        self.windowMessage("提示", "点击确认开始导出报告，请耐心等待")
+        for i in self.file_name:
+            self.drawSingleChart(i,True)
         self.windowMessage("提示", "导出成功！")
         pass
 

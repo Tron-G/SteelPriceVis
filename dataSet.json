@@ -1,36 +1,42 @@
 {
   "rebar":{
     "name": "螺纹钢",
+    "label": "螺纹钢,HRB400E 20MM,上海市场",
     "price":"3400",
     "com_week":"+85",
     "com_year":"+1090"
   },
   "eleCopper":{
     "name": "电解铜",
+    "label": "电解铜,上海市场",
     "price":"123123",
     "com_week":"+85",
     "com_year":"+1090"
   },
   "alumina":{
     "name": "氧化铝",
+    "label": "氧化铝,贵州市场",
     "price":"34634",
     "com_week":"+85",
     "com_year":"+1090"
   },
   "silicomanganese":{
     "name": "硅锰",
+    "label": "硅锰,6517,贵州市场",
     "price":"6789",
     "com_week":"+85",
     "com_year":"+1090"
   },
   "thermalCoal":{
     "name": "动力煤",
+    "label": "动力煤,Q5500,山西市场",
     "price":"5467856",
     "com_week":"+85",
     "com_year":"+1090"
   },
   "SMMA00":{
-    "name": "SMM A00铝",
+    "name": "电解铝",
+    "label": "SMM A00铝",
     "price":"2334",
     "com_week":"+85",
     "com_year":"+1090"
@@ -38,6 +44,7 @@
   ,
   "SMMalumina":{
     "name": "SMM氧化铝",
+    "label": "SMM氧化铝",
     "price":"6223",
     "com_week":"+85",
     "com_year":"+1090"
@@ -45,6 +52,7 @@
   ,
   "eleManganese":{
     "name": "电解锰",
+    "label": "电解锰,湖南市场",
     "price":"235",
     "com_week":"+85",
     "com_year":"+1090"
