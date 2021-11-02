@@ -94,6 +94,15 @@ class FileProcessing:
             fp.write(json.dumps(data, indent=2, ensure_ascii=False))
         pass
 
+    def load_cut_data(self, length, file, file_type="json"):
+        """返回切割指定长度的数据"""
+        data = self.load_data(file, file_type)
+        if len(data) < length:
+            return data
+        else:
+            new_data = data[-length:]
+            new_data = new_data.reset_index(drop=True)
+            return new_data
 
 
 # def data_cut():
