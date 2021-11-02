@@ -12,10 +12,11 @@ from docx.enum.table import WD_TABLE_ALIGNMENT
 class Word():
     def __init__(self):
         #weekPrice本周价格的一维度数组，weekGains同比上周的一维数组，yearGains同比去年的一维数组
-        self.path = os.path.abspath(os.path.dirname((os.path.dirname(__file__))))+r"\SteelPriceVis\files"
+
+        self.path = os.path.dirname(os.path.abspath(__file__)) + r"\files"
         self.now = time.strftime("%Y-%m-%d",time.localtime(time.time()))
         self.picpath = self.path + r"\imgs"
-        self.docx = Document(self.path + r"\主要工业产品价格走势_头.docx")
+        self.docx = Document(self.path + r"\doc_header.docx")
         self.jsonvalue = self.readJson()
         self.jsonvalue1 = self.jsonvalue[1]
         self.jsonvalue2 = self.jsonvalue[2]
@@ -144,9 +145,9 @@ class Word():
     def run(self):
         self.creatTable()
         self.creatPic()
-        self.docx.save(self.path+'\主要工业产品价格走势_图.docx')
+        self.docx.save(self.path+'\pictures.docx')
         # 获得纯文本文档
-        file = docx.Document(self.path+'\主要工业产品价格走势_尾.docx')
+        file = docx.Document(self.path+'\doc_tail.docx')
         for para in file.paragraphs:
             style = para.style  # 返回段落引用集合--列表
             paragraph = self.docx.add_paragraph(para.text,style=style)  # 接收文档的内容

@@ -1,27 +1,13 @@
 # -*- mode: python ; coding: utf-8 -*-
-SETUP_DIR = 'E:\\workspace\\SteelPriceVis\\'
+
 
 block_cipher = None
 
 
-a = Analysis(['main.py',
-               SETUP_DIR+'creatWord.py',
-               SETUP_DIR+'drawLine.py',
-               SETUP_DIR+'fileProcessing.py',
-               SETUP_DIR+'jsonTool.py',
-               SETUP_DIR+'mySteelSpider.py',
-               SETUP_DIR+'pricePredict.py',
-               SETUP_DIR+'QtWindow.py',
-               SETUP_DIR+'SmmSteelSpider.py',
-               SETUP_DIR+'ZczxSteelSSpider.py',
-            ],
+a = Analysis(['main.py', 'creatWord.py','drawLine.py','fileProcessing.py','jsonTool.py','mySteelSpider.py','pricePredict.py','QtWindow.py','SmmSteelSpider.py','ZczxSteelSSpider.py'],
              pathex=['E:\\workspace\\SteelPriceVis'],
              binaries=[],
-             datas=[(SETUP_DIR+'files/*',SETUP_DIR+'files'),
-                    (SETUP_DIR+'dataSet.json', '.'),
-                    (SETUP_DIR+'setting.json', '.'),
-                    (SETUP_DIR+'chromedriver.exe', '.'),
-             ],
+             datas=[('chromedriver.exe','.'),('dataSet.json','.'),('setting.json','.')],
              hiddenimports=[],
              hookspath=[],
              hooksconfig={},

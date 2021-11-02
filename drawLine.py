@@ -7,6 +7,7 @@ from QtWindow import Ui_MainWindow
 from fileProcessing import FileProcessing
 from PyQt5 import QtCore, QtGui, QtWidgets
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
 import datetime
 from pricePredict import PricePredict
 import os
@@ -76,7 +77,8 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
             mins = int(self.setting["update_time"].split(":")[1])
             # print(hours, mins)
             scheduler = BackgroundScheduler()
-            scheduler.add_job(self.autoUpdate, 'cron', day_of_week='0-6', hour=hours, minute=mins)
+            trigger = CronTrigger(day_of_week='0-6', hour=hours, minute=mins)
+            scheduler.add_job(self.autoUpdate, trigger)
             scheduler.start()
 
         #####################################################################

@@ -1,6 +1,6 @@
 absl-py==0.15.0
 altgraph==0.17.2
-APScheduler==3.8.0
+APScheduler==3.8.1
 astunparse==1.6.3
 async-generator==1.10
 attrs==21.2.0
