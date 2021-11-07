@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
 
         ###################################################################
         self.change_time_view = QtWidgets.QSplitter(self.centralwidget)
-        self.change_time_view.setGeometry(QtCore.QRect(370, 10, 731, 61))
+        self.change_time_view.setGeometry(QtCore.QRect(505, 10, 450, 35))
         self.change_time_view.setOrientation(QtCore.Qt.Horizontal)
         self.change_time_view.setObjectName("change_time_view")
         self.dayButton = QtWidgets.QPushButton(self.change_time_view)
@@ -89,7 +89,7 @@ class Ui_MainWindow(object):
 
         ###################################################################
         self.toolBoxs = QtWidgets.QSplitter(self.centralwidget)
-        self.toolBoxs.setGeometry(QtCore.QRect(450, 90, 571, 31))
+        self.toolBoxs.setGeometry(QtCore.QRect(450, 50, 571, 31))
         self.toolBoxs.setStyleSheet("")
         self.toolBoxs.setOrientation(QtCore.Qt.Horizontal)
         self.toolBoxs.setObjectName("toolBoxs")
@@ -108,12 +108,20 @@ class Ui_MainWindow(object):
         ###################################################################
         # 添加一个widget容器，和一个groupBox存放图表
         self.widget = QtWidgets.QWidget(MainWindow)
-        self.widget.setGeometry(QtCore.QRect(200, 270, 1100, 700))
+        self.widget.setGeometry(QtCore.QRect(160, 280, 1200, 700))
         self.widget.setObjectName("widget")
         self.groupBox = QtWidgets.QGroupBox(self.widget)
-        self.groupBox.setGeometry(QtCore.QRect(0, 0, 1100, 700))
+        self.groupBox.setGeometry(QtCore.QRect(0, 0, 1200, 700))
         self.groupBox.setObjectName("groupBox")
         ####################################################################
+        self.label_widget = QtWidgets.QWidget(MainWindow)
+        self.label_widget.setGeometry(QtCore.QRect(400, 240, 600, 40))
+        self.label_widget.setObjectName("label_widget")
+
+        self.label_groupBox = QtWidgets.QGroupBox(self.label_widget)
+        self.label_groupBox.setGeometry(QtCore.QRect(0, 0, 600, 40))
+        self.label_groupBox.setObjectName("label_groupBox")
+
 
         MainWindow.setCentralWidget(self.centralwidget)
         # self.menubar = QtWidgets.QMenuBar(MainWindow)

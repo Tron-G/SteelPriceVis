@@ -1,4 +1,5 @@
 # -*-coding:utf-8-*-
+from PyQt5.QtGui import QFont
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.ticker as ticker
@@ -6,6 +7,7 @@ from PyQt5.QtWidgets import *
 from QtWindow import Ui_MainWindow
 from fileProcessing import FileProcessing
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 import datetime
@@ -42,6 +44,7 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         # 在GUI的groupBox中创建一个布局，用于添加MyFigure类的实例（即图形）后其他部件。
         self.gridlayout = QGridLayout(self.groupBox)  # 继承容器groupBox
 
+        self.label_gridlayout = QGridLayout(self.label_groupBox)
         # 读取缓存数据
         self.file_name = ["alumina", "SMMA00", "rebar", "silicomanganese", "eleManganese", "thermalCoal", "eleCopper",
                           "SMMalumina"]
@@ -67,6 +70,10 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.price_predictor = PricePredict()
         # 换乘系统设置
         self.setting = self.fp.load_data("setting")
+        # 显示更新的最新日期
+        self.last_update_date = ""
+        self.refresh_date_time()
+
         # 开启定时更新后屏蔽按钮
         if self.setting["open_regular_update"] == "true":
             self.regular_update.setEnabled(False)
@@ -104,7 +111,6 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.insert_report.clicked.connect(lambda: self.insertReport())
         self.predict.clicked.connect(lambda: self.pricePredict())
         self.drawAllTable()
-
         pass
 
     def overview(self):
@@ -169,8 +175,7 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
 
         text_x = data["date"][len(data["date"]) - 1]
         text_y = data["value"][len(data["value"]) - 1]
-
-        self.F.axes.text(text_x, text_y, "(" + text_x + ", " + str(text_y) + ")", fontsize=9, color="b", weight="bold")
+        self.F.axes.text(text_x, text_y, "(" + text_x + "," + str(text_y) + ")", fontsize=7, color="b", weight="bold")
 
         if self.tick_spacing != -1:
             self.F.axes.xaxis.set_major_locator(ticker.MultipleLocator(self.tick_spacing))
@@ -206,7 +211,7 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         print("main!!")
         self.regenerateTableDate()
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(290, 140, 902, 118))
+        self.tableWidget.setGeometry(QtCore.QRect(180, 90, 1000, 140))
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(9)
         self.tableWidget.setRowCount(3)
@@ -234,6 +239,7 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(0, index, price_item)
             self.tableWidget.setItem(1, index, com_week_item)
             self.tableWidget.setItem(2, index, com_year_item)
+            self.tableWidget.setFont(QFont('SimSun', 8))
             index += 1
 
         self.tableWidget.show()
@@ -256,7 +262,7 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.now_page = steel_type
         self.tableWidget.deleteLater()
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(630, 140, 202, 118))
+        self.tableWidget.setGeometry(QtCore.QRect(620, 90, 270, 140))
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(2)
         self.tableWidget.setRowCount(3)
@@ -294,6 +300,7 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         table_widget.setItem(0, 0, header_item1)
         table_widget.setItem(1, 0, header_item2)
         table_widget.setItem(2, 0, header_item3)
+        table_widget.setFont(QFont('SimSun', 8))
         pass
 
     def redrawByDate(self, time_range):
@@ -663,4 +670,15 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         word = Word()
         creatwordresult = word.run()
         self.windowMessage("提示", creatwordresult)
+        pass
+
+    def refresh_date_time(self):
+        temp_date = self.data_set[0]["date"][len(self.data_set[0]["date"]) - 1].split("-")
+        temp_text = temp_date[0] + "年" + temp_date[1] + "月" + temp_date[2] + "日"
+        self.last_update_date = "数据更新至: " + temp_text
+        label = QLabel(self)
+        label.setText(self.last_update_date)
+        label.setAlignment(Qt.AlignCenter)
+        label.setFont(QFont("Timers", 13))
+        self.label_gridlayout.addWidget(label)
         pass

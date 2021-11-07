@@ -28,9 +28,9 @@ class Word():
         self.jsonvalue8 = self.jsonvalue[8]
         self.jsonvalue9 = self.jsonvalue[9]
         self.jsonvalue10 = self.jsonvalue[10]
-        self.rows  = 11
+        self.rows = 10
         self.cols = 9
-        self.rowsname = ['产品','螺纹铜','电解铜','氧化铝','硅锰','动力煤','SMM AOO铝','SMM氧化铝','电解锰']
+        self.rowsname = ['产品','氧化铝','电解铝','螺纹钢','硅锰','电解锰','动力煤','电解铜','SMM氧化铝']
         self.picpathList = self.getFilePath()
         self.picnameList = self.getFileName()
 
@@ -81,39 +81,37 @@ class Word():
         self.docx.add_heading(text='主要工业产品价格走势('+self.now+")", level=1)
         self.table = self.docx.add_table(self.rows,self.cols,style = "Table Grid")
 
-        self.table.cell(1, 0).text = "产品名与地区"
-        self.table.cell(2, 0).text = "本日价格(元/吨)"
-        self.table.cell(3, 0).text = "环比昨日(元/吨)"
-        self.table.cell(4, 0).text = "同比去年(元/吨)"
-        self.table.cell(5, 0).text = "本周价格(元/吨)"
-        self.table.cell(6, 0).text = "环比上周(元/吨)"
-        self.table.cell(7, 0).text = "本月价格(元/吨)"
-        self.table.cell(8, 0).text = "环比上月(元/吨)"
-        self.table.cell(9, 0).text = "本年价格(元/吨)"
-        self.table.cell(10, 0).text = "环比去年(元/吨)"
+        self.table.cell(0, 0).text = "产品名与地区"
+        self.table.cell(1, 0).text = "本日价格(元/吨)"
+        self.table.cell(2, 0).text = "环比昨日(元/吨)"
+        self.table.cell(3, 0).text = "同比去年(元/吨)"
+        self.table.cell(4, 0).text = "本周价格(元/吨)"
+        self.table.cell(5, 0).text = "环比上周(元/吨)"
+        self.table.cell(6, 0).text = "本月价格(元/吨)"
+        self.table.cell(7, 0).text = "环比上月(元/吨)"
+        self.table.cell(8, 0).text = "本年价格(元/吨)"
+        self.table.cell(9, 0).text = "环比去年(元/吨)"
         for i in range(0,self.rows):
             for j in range(0,self.cols):
-                if i == 0:
-                    self.table.cell(i, j).text = str(self.rowsname[j])
-                if i == 1 and j != 0:
+                if i == 0 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue1[j-1])
-                if i == 2 and j != 0:
+                if i == 1 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue2[j-1])
-                if i == 3 and j != 0:
+                if i == 2 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue3[j-1])
-                if i == 4 and j != 0:
+                if i == 3 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue4[j-1])
-                if i == 5 and j != 0:
+                if i == 4 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue5[j-1])
-                if i == 6 and j != 0:
+                if i == 5 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue6[j-1])
-                if i == 7 and j != 0:
+                if i == 6 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue7[j-1])
-                if i == 8 and j != 0:
+                if i == 7 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue8[j-1])
-                if i == 9 and j != 0:
+                if i == 8 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue9[j-1])
-                if i == 10 and j != 0:
+                if i == 9 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue10[j - 1])
 
     def creatPic(self):
@@ -154,9 +152,5 @@ class Word():
         self.docx.save(self.path+'\主要工业产品价格走势.docx')
         return "导出成功！报告已保存在：\n"+self.path+'\主要工业产品价格走势.docx'
 
-
-# a = Word()
-# b = a.run()
-# print(b)
 
 

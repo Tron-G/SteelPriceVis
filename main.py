@@ -15,7 +15,7 @@ if __name__ == '__main__':
     # mainW.show()
     #
     # sys.exit(app.exec_())
-
+    QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QApplication(sys.argv)
     line = MainDialogImgBW()
     line.show()
