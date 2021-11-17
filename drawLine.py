@@ -49,10 +49,10 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.file_name = ["alumina", "SMMA00", "rebar", "silicomanganese", "eleManganese", "thermalCoal", "eleCopper",
                           "SMMalumina"]
         self.data_attr = {
-            "day": ["本日价格(元/吨)", "环比昨日(元/吨)", "同比去年(元/吨)"],
-            "week": ["本周价格(元/吨)", "环比上周(元/吨)", "同比去年(元/吨)"],
-            "month": ["本月价格(元/吨)", "环比上月(元/吨)", "同比去年(元/吨)"],
-            "year": ["本年价格(元/吨)", "环比去年(元/吨)", "同比去年(元/吨)"]
+            "day": ["本日价格(元/吨)", "环比昨日(元/吨)", "本日同比去年(元/吨)"],
+            "week": ["本周价格(元/吨)", "环比上周(元/吨)", "本周同比去年(元/吨)"],
+            "month": ["本月价格(元/吨)", "环比上月(元/吨)", "本月同比去年(元/吨)"],
+            "year": ["本年价格(元/吨)", "环比去年(元/吨)", "本年同比去年(元/吨)"]
         }
         self.fp = FileProcessing()
         self.data_set = []

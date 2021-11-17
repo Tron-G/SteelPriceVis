@@ -95,7 +95,7 @@ class FileProcessing:
         pass
 
     def load_cut_data(self, length, file, file_type="json"):
-        """返回切割指定长度的数据"""
+        """返回切割指定长度的数据, 暂时只支持csv"""
         data = self.load_data(file, file_type)
         if len(data) < length:
             return data

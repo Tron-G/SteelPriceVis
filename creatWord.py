@@ -28,7 +28,9 @@ class Word():
         self.jsonvalue8 = self.jsonvalue[8]
         self.jsonvalue9 = self.jsonvalue[9]
         self.jsonvalue10 = self.jsonvalue[10]
-        self.rows = 10
+        self.jsonvalue11 = self.jsonvalue[11]
+        self.jsonvalue12 = self.jsonvalue[12]
+        self.rows = 12
         self.cols = 9
         self.rowsname = ['产品','氧化铝','电解铝','螺纹钢','硅锰','电解锰','动力煤','电解铜','SMM氧化铝']
         self.picpathList = self.getFilePath()
@@ -45,20 +47,24 @@ class Word():
         jsonvalue8 = []
         jsonvalue9 = []
         jsonvalue10 = []
+        jsonvalue11 = []
+        jsonvalue12 = []
         with open("dataSet.json")as f:
             jsondata = json.load(f)
         for tmp in jsondata:
             jsonvalue1.append(jsondata[tmp]['label'])
             jsonvalue2.append(jsondata[tmp]['本日价格(元/吨)'])
             jsonvalue3.append(jsondata[tmp]['环比昨日(元/吨)'])
-            jsonvalue4.append(jsondata[tmp]['同比去年(元/吨)'])
+            jsonvalue4.append(jsondata[tmp]['本日同比去年(元/吨)'])
             jsonvalue5.append(jsondata[tmp]['本周价格(元/吨)'])
             jsonvalue6.append(jsondata[tmp]['环比上周(元/吨)'])
-            jsonvalue7.append(jsondata[tmp]['本月价格(元/吨)'])
-            jsonvalue8.append(jsondata[tmp]['环比上月(元/吨)'])
-            jsonvalue9.append(jsondata[tmp]['本年价格(元/吨)'])
-            jsonvalue10.append(jsondata[tmp]['环比去年(元/吨)'])
-        return None,jsonvalue1,jsonvalue2,jsonvalue3,jsonvalue4,jsonvalue5,jsonvalue6,jsonvalue7,jsonvalue8,jsonvalue9,jsonvalue10
+            jsonvalue7.append(jsondata[tmp]['本周同比去年(元/吨)'])
+            jsonvalue8.append(jsondata[tmp]['本月价格(元/吨)'])
+            jsonvalue9.append(jsondata[tmp]['环比上月(元/吨)'])
+            jsonvalue10.append(jsondata[tmp]['本月同比去年(元/吨)'])
+            jsonvalue11.append(jsondata[tmp]['本年价格(元/吨)'])
+            jsonvalue12.append(jsondata[tmp]['环比去年(元/吨)'])
+        return None,jsonvalue1,jsonvalue2,jsonvalue3,jsonvalue4,jsonvalue5,jsonvalue6,jsonvalue7,jsonvalue8,jsonvalue9,jsonvalue10,jsonvalue11,jsonvalue12
 
 
     def getFileName(self):
@@ -84,13 +90,15 @@ class Word():
         self.table.cell(0, 0).text = "产品名与地区"
         self.table.cell(1, 0).text = "本日价格(元/吨)"
         self.table.cell(2, 0).text = "环比昨日(元/吨)"
-        self.table.cell(3, 0).text = "同比去年(元/吨)"
+        self.table.cell(3, 0).text = "本日同比去年(元/吨)"
         self.table.cell(4, 0).text = "本周价格(元/吨)"
         self.table.cell(5, 0).text = "环比上周(元/吨)"
-        self.table.cell(6, 0).text = "本月价格(元/吨)"
-        self.table.cell(7, 0).text = "环比上月(元/吨)"
-        self.table.cell(8, 0).text = "本年价格(元/吨)"
-        self.table.cell(9, 0).text = "环比去年(元/吨)"
+        self.table.cell(6, 0).text = "本周同比去年(元/吨)"
+        self.table.cell(7, 0).text = "本月价格(元/吨)"
+        self.table.cell(8, 0).text = "环比上月(元/吨)"
+        self.table.cell(9, 0).text = "本月同比去年(元/吨)"
+        self.table.cell(10, 0).text = "本年价格(元/吨)"
+        self.table.cell(11, 0).text = "环比去年(元/吨)"
         for i in range(0,self.rows):
             for j in range(0,self.cols):
                 if i == 0 and j != 0:
@@ -113,6 +121,10 @@ class Word():
                     self.table.cell(i, j).text = str(self.jsonvalue9[j-1])
                 if i == 9 and j != 0:
                     self.table.cell(i, j).text = str(self.jsonvalue10[j - 1])
+                if i == 10 and j != 0:
+                    self.table.cell(i, j).text = str(self.jsonvalue11[j - 1])
+                if i == 11 and j != 0:
+                    self.table.cell(i, j).text = str(self.jsonvalue12[j - 1])
 
     def creatPic(self):
         for i in range(len(self.picpathList)):
