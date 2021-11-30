@@ -171,7 +171,7 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.F.axes.plot(data["date"], data["value"], "r", linewidth=0.5, label=self.table_data[chart_type]["label"])
         self.F.axes.set_title(self.table_data[chart_type]["name"] + " 走势图", fontsize=15, fontweight='bold',
                               fontproperties="SimHei")
-        self.F.axes.legend(loc='upper right', prop=myfont, framealpha=0.4)
+        self.F.axes.legend(loc='upper center', prop=myfont, framealpha=0.4)
 
         text_x = data["date"][len(data["date"]) - 1]
         text_y = data["value"][len(data["value"]) - 1]
@@ -387,27 +387,44 @@ class MainDialogImgBW(QtWidgets.QMainWindow, Ui_MainWindow):
         elif time_range == "year":
             result["date"] = []
             result["value"] = []
-            day_count = 0
-            value_count = 0
-            for index in range(len(data["date"]) - 1):
+            day_count = 1
+            value_count = data["value"][0]
+            year_set = [data["date"][0].split("-")[0]]
+            year_index = 0
+            for index in range(1, len(data["date"])):
                 now_year = data["date"][index].split("-")[0]
-                next_year = data["date"][index + 1].split("-")[0]
-                if next_year != now_year and day_count != 0:
-                    result["date"].append(data["date"][index + 1])
+                if now_year not in year_set:
+                    result["date"].append(year_set[year_index])
                     result["value"].append(int(value_count / day_count))
-                    day_count = 0
+                    year_index += 1
+                    day_count = 1
                     value_count = 0
-                if next_year != now_year and day_count == 0:
-                    result["date"].append(data["date"][index])
-                    result["value"].append(data["value"][index])
-                day_count += 1
-                value_count += data["value"][index]
-                if index == (len(data["date"]) - 2) and day_count != 0:
-                    result["date"].append(data["date"][index + 1])
-                    result["value"].append(int(value_count / day_count))
-                elif index == (len(data["date"]) - 2) and day_count == 0:
-                    result["date"].append(data["date"][index + 1])
-                    result["value"].append(data["value"][index + 1])
+                    year_set.append(now_year)
+                else:
+                    day_count += 1
+                    value_count += data["value"][index]
+                    if index == (len(data["date"]) - 1) and day_count != 1:
+                        result["date"].append(year_set[year_index])
+                        result["value"].append(int(value_count / day_count))
+                # next_year = data["date"][index + 1].split("-")[0]
+                #
+                # if next_year != now_year and day_count != 0:
+                #     result["date"].append(data["date"][index + 1])
+                #     result["value"].append(int(value_count / day_count))
+                #     day_count = 0
+                #     value_count = 0
+                # if next_year != now_year and day_count == 0:
+                #     result["date"].append(data["date"][index])
+                #     result["value"].append(data["value"][index])
+                # day_count += 1
+                # value_count += data["value"][index]
+                # if index == (len(data["date"]) - 2) and day_count != 0:
+                #     result["date"].append(data["date"][index + 1])
+                #     result["value"].append(int(value_count / day_count))
+                # elif index == (len(data["date"]) - 2) and day_count == 0:
+                #     result["date"].append(data["date"][index + 1])
+                #     result["value"].append(data["value"][index + 1])
+            print(result)
         return result
 
     def regenerateTableDate(self):
